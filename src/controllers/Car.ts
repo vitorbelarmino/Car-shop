@@ -11,10 +11,10 @@ class CarController {
     return res.status(201).json(newCar);
   }
 
-  // public async read() {
-  //   const cars = await this._modelCar.read();
-  //   return cars;
-  // }
+  public async read(req: Request, res: Response): Promise<Response> {
+    const cars = await this.service.read();
+    return res.status(200).json(cars);
+  }
 
   // public async readOne(id: string) {
   //   const getCar = await this._modelCar.readOne(id);
