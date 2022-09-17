@@ -16,10 +16,11 @@ class CarController {
     return res.status(200).json(cars);
   }
 
-  // public async readOne(id: string) {
-  //   const getCar = await this._modelCar.readOne(id);
-  //   return getCar;
-  // }
+  public async readOne(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const getCar = await this.service.readOne(id);
+    return res.status(200).json(getCar);
+  }
 
   // public async update(id: string, car: ICar) {
   //   const updateCar = await this._modelCar.update(id, car);
