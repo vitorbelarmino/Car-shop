@@ -28,6 +28,9 @@ class CarService implements IModel<ICar> {
   }
 
   public async update(id: string, car: ICar) {
+    if (id.length !== 24) throw new CustomError(400, 'Id must have 24 hexadecimal characters');
+    const getCar = await this._modelCar.readOne(id);
+    if (!getCar) throw new CustomError(404, 'Object not found');
     const updateCar = await this._modelCar.update(id, car);
     return updateCar;
   }
