@@ -1,5 +1,5 @@
-import { isValidObjectId, Model, UpdateQuery } from 'mongoose';
-import CustomError from '../helpers/CustomError';
+import { Model, UpdateQuery } from 'mongoose';
+// import CustomError from '../helpers/CustomError';
 import { IModel } from '../interfaces/IModel';
 
 abstract class MongoModel<T> implements IModel<T> {
@@ -18,7 +18,6 @@ abstract class MongoModel<T> implements IModel<T> {
   }
 
   public async readOne(_id: string): Promise<T | null> {
-    if (!isValidObjectId(_id)) throw new CustomError(400, 'invalidMongoId');
     return this._model.findById(_id);
   }
 
