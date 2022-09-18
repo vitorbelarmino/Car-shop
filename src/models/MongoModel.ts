@@ -1,5 +1,4 @@
 import { Model, UpdateQuery } from 'mongoose';
-// import CustomError from '../helpers/CustomError';
 import { IModel } from '../interfaces/IModel';
 
 abstract class MongoModel<T> implements IModel<T> {

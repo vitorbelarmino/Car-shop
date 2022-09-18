@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import { allCarsMock, carMock, carMockWithId, carUpdateMockWithId } from '../../mocks/carMocks';
 const { expect } = chai;
 
-describe('Car model', () => {
+describe('Testa o model de Car', () => {
   const carModel = new car()
 
   before(async () => {
@@ -43,7 +43,7 @@ describe('Car model', () => {
 
   describe('Testa o método "update"', () => {
     it('Testa a alteração de um carro pelo ID', async() => {
-      const updateCar = await carModel.update('632643caf4fac59e74ce7def',carUpdateMockWithId)
+      const updateCar = await carModel.update('id corrento',carUpdateMockWithId)
       expect(updateCar).to.be.deep.equal(carUpdateMockWithId)
     })
   })

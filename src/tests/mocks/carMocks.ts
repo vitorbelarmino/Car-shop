@@ -17,6 +17,16 @@ export const carMockWithId = {
   "seatsQty": 2
 }
 
+export const carUpdateMock = {
+  "_id": "632643caf4fac59e74ce7def",
+  "model": "Ferrari Maranello",
+  "year": 1963,
+  "color": "blue",
+  "buyValue": 3500000,
+  "doorsQty": 2,
+  "seatsQty": 2
+}
+
 export const carUpdateMockWithId = {
   "_id": "632643caf4fac59e74ce7def",
   "model": "Ferrari Maranello",
