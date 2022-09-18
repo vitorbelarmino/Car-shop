@@ -49,21 +49,21 @@ describe('Testa o controller de Car', () => {
   describe('Testa o método readOne', async () => {
     it('Testa sucesso', async () => {
       req.params = { id: carMockWithId._id }
-      await carController.read(req, res)
+      await carController.readOne(req, res)
 
       expect((res.status as sinon.SinonStub).calledWith(200)).to.be.true;
       expect((res.json as sinon.SinonStub).calledWith(carMockWithId)).to.be.true;
     })
   });
 
-  // describe('Testa o método update', async () => {
-  //   it('Testa sucesso', async () => {
-  //     req.params = { id: carMockWithId._id }
-  //     req.body = carUpdateMock
-  //     await carController.read(req, res)
+  describe('Testa o método update', async () => {
+    it('Testa sucesso', async () => {
+      req.params = { id: carMockWithId._id }
+      req.body = carUpdateMock
+      await carController.update(req, res)
 
-  //     expect((res.status as sinon.SinonStub).calledWith(200)).to.be.true;
-  //     expect((res.json as sinon.SinonStub).calledWith(carUpdateMockWithId)).to.be.true;
-  //   })
-  // });
+      expect((res.status as sinon.SinonStub).calledWith(200)).to.be.true;
+      expect((res.json as sinon.SinonStub).calledWith(carUpdateMockWithId)).to.be.true;
+    })
+  });
 });

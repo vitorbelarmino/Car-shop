@@ -18,7 +18,6 @@ export const carMockWithId = {
 }
 
 export const carUpdateMock = {
-  "_id": "632643caf4fac59e74ce7def",
   "model": "Ferrari Maranello",
   "year": 1963,
   "color": "blue",
