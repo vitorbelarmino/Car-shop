@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import CustomError from '../helpers/CustomError';
 import { ICar } from '../interfaces/ICar';
 import IService from '../interfaces/IService';
 
@@ -26,17 +25,15 @@ class CarController {
   public async update(req: Request, res: Response) {
     const { id } = req.params;
     const car = req.body;
-    
-    if (!Object.keys(car).length) throw new CustomError(400, 'missing body');
-
     const updateCar = await this.service.update(id, car);
     res.status(200).json(updateCar);
   }
-  
-  // public async delete(id: string) {
-  //   const result = await this._modelCar.delete(id);
-  //   return result;
-  // }
+
+  public async delete(req: Request, res: Response) {
+    const { id } = req.params;
+    await this.service.delete(id);
+    res.status(204).json({ message: 'car excluded' });
+  }
 }
 
 export default CarController;

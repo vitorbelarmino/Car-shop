@@ -56,3 +56,7 @@ export const allCarsMock = [
 		"seatsQty": 2
 	}
 ]
+
+export const idNotRegistered = "632643caf4fac59e74ce7dee"
+
+export const invalidId = '632643caf4fac59e74ce7de'

@@ -1,3 +1,4 @@
+import errorMessage from '../helpers/ errorMessages';
 import CustomError from '../helpers/CustomError';
 import { carSchema, ICar } from '../interfaces/ICar';
 import { IModel } from '../interfaces/IModel';
@@ -21,23 +22,27 @@ class CarService implements IModel<ICar> {
   }
 
   public async readOne(id: string) {
-    if (id.length !== 24) throw new CustomError(400, 'Id must have 24 hexadecimal characters');
+    if (id.length !== 24) throw new CustomError(400, errorMessage.hexadecimal);
     const car = await this._modelCar.readOne(id);
-    if (!car) throw new CustomError(404, 'Object not found');
+    if (!car) throw new CustomError(404, errorMessage.notFund);
     return car;
   }
 
   public async update(id: string, car: ICar) {
-    if (id.length !== 24) throw new CustomError(400, 'Id must have 24 hexadecimal characters');
+    if (!Object.keys(car).length) throw new CustomError(400, errorMessage.missingBody);
+    if (id.length !== 24) throw new CustomError(400, errorMessage.hexadecimal);
     const getCar = await this._modelCar.readOne(id);
-    if (!getCar) throw new CustomError(404, 'Object not found');
+    if (!getCar) throw new CustomError(404, errorMessage.notFund);
     const updateCar = await this._modelCar.update(id, car);
     return updateCar;
   }
 
   public async delete(id: string) {
-    const result = await this._modelCar.delete(id);
-    return result;
+    if (id.length !== 24) throw new CustomError(400, errorMessage.hexadecimal);
+    const getCar = await this._modelCar.readOne(id);
+    if (!getCar) throw new CustomError(404, errorMessage.notFund);
+    const deletedCar = await this._modelCar.delete(id);
+    return deletedCar;
   }
 }
 

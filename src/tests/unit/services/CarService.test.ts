@@ -2,8 +2,9 @@ import * as sinon from 'sinon';
 import chai from 'chai';
 import CarModel from '../../../models/Car';
 import CarService from '../../../services/Car';
-import { allCarsMock, carMock, carMockWithId, carUpdateMockWithId } from '../../mocks/carMocks';
+import { allCarsMock, carMock, carMockWithId, carUpdateMockWithId, idNotRegistered, invalidId } from '../../mocks/carMocks';
 import CustomError from '../../../helpers/CustomError';
+import errorMessage from '../../../helpers/ errorMessages';
 const { expect } = chai;
 
 describe('Testa o Service de Car', () => {
@@ -15,6 +16,7 @@ describe('Testa o Service de Car', () => {
     sinon.stub(carModel, 'read').resolves(allCarsMock);
     sinon.stub(carModel, 'readOne').resolves(carMockWithId);
     sinon.stub(carModel, 'update').resolves(carUpdateMockWithId);
+    sinon.stub(carModel, 'delete').resolves(carMockWithId);
   });
 
   after(()=>{
@@ -51,7 +53,7 @@ describe('Testa o Service de Car', () => {
   
   describe('Testa o método "readOne"', () => {
     it('Testa sucesso', async () => {
-      const getCar = await carService.readOne('632643caf4fac59e74ce7def')
+      const getCar = await carService.readOne(carMockWithId._id)
 
       expect(getCar).to.be.deep.equal(carMockWithId)
     })
@@ -59,23 +61,55 @@ describe('Testa o Service de Car', () => {
     it('Testa falha ao mandar um id invalido', async () => {
       let err;
       try {
-      await carService.readOne('632643caf4fac59e74ce7de')
-      } catch (error) {
+      await carService.readOne(invalidId)
+      } catch (error) {       
         err = error
       }
       expect((err as CustomError).status).to.be.equal(400)
-      expect((err as CustomError).message).to.be.equal('Id must have 24 hexadecimal characters')
+      expect((err as CustomError).message).to.be.equal(errorMessage.hexadecimal)
     })
   })
 
   describe('Testa o método "update"', () => {
     it('Testa sucesso', async () => {
-      const updateCar = await carService.update('632643caf4fac59e74ce7def', carUpdateMockWithId)
+      const updateCar = await carService.update(carMockWithId._id, carUpdateMockWithId)
 
       expect(updateCar).to.be.deep.equal(carUpdateMockWithId)
     })
   })
 
+  describe('Testa o método "delete"', () => {
+    it('Testa sucesso', async () => {
+      const deletedCar = await carService.delete(carMockWithId._id)
 
+      expect(deletedCar).to.be.deep.equal(carMockWithId)
+    })
+
+    it('Testa falha ao mandar um id invalido', async () => {
+      let err;
+      try {
+      await carService.delete(invalidId)
+      } catch (error) {       
+        err = error
+      }
+      expect((err as CustomError).status).to.be.equal(400)
+      expect((err as CustomError).message).to.be.equal(errorMessage.hexadecimal)
+    })
+
+    // it('Testa falha ao mandar um id que não esteja no banco de dados', async () => {
+    //   let err;
+    //   try {
+    //     const get = await carService.delete(idNotRegistered)
+    //     console.log(idNotRegistered);
+        
+    //     console.log(get);
+    //   } catch (error) {       
+    //     err = error
+    //   }
+      
+    //   expect((err as CustomError).status).to.be.equal(404)
+    //   expect((err as CustomError).message).to.be.equal(errorMessage.notFund)
+    // })
+  })
 
 }); 

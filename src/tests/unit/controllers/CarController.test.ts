@@ -5,6 +5,7 @@ import chai from 'chai';
 import CarController from '../../../controllers/Car';
 import { Request, Response } from 'express';
 import { allCarsMock, carMock, carMockWithId, carUpdateMock, carUpdateMockWithId } from '../../mocks/carMocks';
+import CustomError from '../../../helpers/CustomError';
 const { expect } = chai;
 
 describe('Testa o controller de Car', () => {
@@ -18,6 +19,7 @@ describe('Testa o controller de Car', () => {
     sinon.stub(carService, 'read').resolves(allCarsMock);
     sinon.stub(carService, 'readOne').resolves(carMockWithId);
     sinon.stub(carService, 'update').resolves(carUpdateMockWithId);
+    sinon.stub(carService, 'delete').resolves(carUpdateMockWithId);
 
     res.status = sinon.stub().returns(res)
     res.json = sinon.stub().returns(res)
@@ -63,7 +65,35 @@ describe('Testa o controller de Car', () => {
       await carController.update(req, res)
 
       expect((res.status as sinon.SinonStub).calledWith(200)).to.be.true;
+      expect((res.status as sinon.SinonStub).calledWith(400)).to.not.be.true;
       expect((res.json as sinon.SinonStub).calledWith(carUpdateMockWithId)).to.be.true;
     })
+
+    // it('Testa se o body não for enviado', async () => {
+    //   let err;
+    //   req.params = { id: carMockWithId._id }
+    //   try {
+    //     await carController.update(req, res)
+    //   } catch (error) {
+    //     expect((error as CustomError).status).to.be.equal(400);
+    //     expect((error as CustomError).message).to.be.equal('missing body');
+
+    //     err = error
+    //   }
+
+    // })
+
   });
+
+  describe('Testa o método delete', async () => {
+    it('Testa sucesso', async () => {
+      req.params = { id: carMockWithId._id }
+      req.body = carUpdateMock
+      await carController.delete(req, res)
+
+      expect((res.status as sinon.SinonStub).calledWith(204)).to.be.true;
+      // expect((res.status as sinon.SinonStub).calledWith(400)).to.not.be.true;
+    })
+
+  })
 });
